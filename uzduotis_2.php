@@ -1,12 +1,17 @@
 <?php
-
+declare(strict_types=1);
 class ArrayControls
 {
+    public $sortedArray;
+    public $arrays;
+
     function __construct($array){
         $this->array = $array;
+        $this->sortedArray = $array;
+        rsort($this->sortedArray);
     }
 
-    function newArrays($groupsCount): array{
+    private function newArrays($groupsCount): array{
         $arrays = array();
         for ($array=0;$array<$groupsCount;$array++){
             array_push($arrays, array());
@@ -14,7 +19,7 @@ class ArrayControls
         return $this->arrays = $arrays;
     }
 
-    function findSmallestArraysElementID(): int{
+    private function findSmallestArraysElementID(): int{
         $arrayElementID = 0;
         $smallestSum = array_sum($this->arrays[$arrayElementID]);
         for ($i = 1; $i < count($this->arrays); $i++){
@@ -27,19 +32,20 @@ class ArrayControls
         return $arrayElementID;
     }
 
-    function getAllArrayGroups($groupsCount){
+    public function getAllArrayGroups($groupsCount): array{
         $this->newArrays($groupsCount);
-        for($i= 0;$i < count($this->arrays); $i++){
-            array_push($this->arrays[$this->findSmallestArraysElementID()],$this->arrays[$i]);
+        for($i= 0;$i < count($this->sortedArray); $i++){
+            array_push($this->arrays[$this->findSmallestArraysElementID()],$this->sortedArray[$i]);
         }
         return $this->arrays;
     }
 
-    function printArrays(){
+    public function printArrays(){
         foreach($this->arrays as $item){
             print_r($item);
             print_r(" Gauta suma: ");
             echo array_sum($item);
+            print_r(" \n");
         }
     }
 }
@@ -49,5 +55,4 @@ $groupsCount = 3;
 $classObject = new ArrayControls($data);
 $classObject->getAllArrayGroups($groupsCount);
 $classObject->printArrays();
-
 ?>
