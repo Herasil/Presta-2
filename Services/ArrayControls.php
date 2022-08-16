@@ -46,6 +46,7 @@ class ArrayControls
             print_r(" Gauta suma: ");
             echo array_sum($item);
             print_r(" \n");
+            print_r("<br>");
         }
     }
 }
